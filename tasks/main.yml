@@ -25,5 +25,5 @@
         dest=/etc/profile.d
 
 - name: Set GOPATH for all users
-  copy: src=go-path.sh
+  template: src=go-path.sh
         dest=/etc/profile.d
