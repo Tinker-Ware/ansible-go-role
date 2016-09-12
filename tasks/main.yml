@@ -14,10 +14,18 @@
   register: go_version
   changed_when: false
 
-- name: Extract the Go tarball if Go is not yet installed or not the desired version
-  unarchive: src=/usr/local/src/{{ go_tarball }}
-             dest=/usr/local
-             copy=no
+# - name: Extract the Go tarball if Go is not yet installed or not the desired version
+#   unarchive: src="/usr/local/src/{{ go_tarball }}"
+#              dest="/usr/local"
+#              remote_src=yes
+#   when: go_version|failed or go_version.stdout != go_version_target
+
+- name: Extract tarball
+  command: "tar xzf /usr/local/src/{{ go_tarball }}"
+  args:
+    creates: "/usr/local/go"
+    chdir: /usr/local/
+    timeout: 4000
   when: go_version|failed or go_version.stdout != go_version_target
 
 - name: Add the Go bin directory to the PATH environment variable for all users
