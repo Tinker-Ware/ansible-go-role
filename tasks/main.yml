@@ -35,3 +35,16 @@
 - name: Set GOPATH for all users
   template: src=go-path.sh
         dest=/etc/profile.d
+
+- name: Include configuration to Go Get private repos
+  command: 'git config --global url."git@github.com:".insteadOf "https://github.com"'
+  sudo: yes
+  sudo_user: "{{ user }}"
+
+- name: Go Get desired repos
+  command: "/usr/local/go/bin/go get {{ item }}"
+  environment:
+    GOPATH: "{{ go_path }}"
+  sudo: yes
+  sudo_user: "{{ user }}"
+  with_items: "{{ go_get }}"
