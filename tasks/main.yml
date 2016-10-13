@@ -41,6 +41,11 @@
   sudo: yes
   sudo_user: "{{ user }}"
 
+- name: Include github key to known_hosts
+  shell: "ssh-keyscan -t rsa github.com >> /home/{{ user }}/.ssh/known_hosts"
+  sudo: yes
+  sudo_user: "{{ user }}"
+
 - name: Go Get desired repos
   command: "/usr/local/go/bin/go get {{ item }}"
   environment:
