@@ -46,8 +46,8 @@
   sudo: yes
   sudo_user: "{{ user }}"
 
-- name: Go Get desired repos
-  command: "/usr/local/go/bin/go get {{ item }}"
+- name: Go Get/Update desired repos
+  command: "/usr/local/go/bin/go get -u {{ item }}"
   environment:
     GOPATH: "{{ go_path }}"
   sudo: yes
