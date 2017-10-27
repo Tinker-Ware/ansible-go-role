@@ -44,18 +44,18 @@
 
 - name: Include configuration to Go Get private repos
   command: 'git config --global url."git@github.com:".insteadOf "https://github.com"'
-  sudo: yes
-  sudo_user: "{{ user }}"
+  become: yes
+  become_user: "{{ user }}"
 
 - name: Include github key to known_hosts
   shell: "ssh-keyscan -t rsa github.com >> /home/{{ user }}/.ssh/known_hosts"
-  sudo: yes
-  sudo_user: "{{ user }}"
+  become: yes
+  become_user: "{{ user }}"
 
 - name: Go Get/Update desired repos
   command: "/usr/local/go/bin/go get -u {{ item }}"
   environment:
     GOPATH: "{{ go_path }}"
-  sudo: yes
-  sudo_user: "{{ user }}"
+  become: yes
+  become_user: "{{ user }}"
   with_items: "{{ go_get | default([]) }}"
